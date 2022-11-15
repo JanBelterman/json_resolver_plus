@@ -1,7 +1,8 @@
 library json_resolver_plus;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:json_resolver_plus/resolve.dart';
+export 'package:json_resolver_plus/json_resolver.dart';
+export 'package:json_resolver_plus/json_map_with_resolve.dart';
+
+typedef JsonObject = Map<String, dynamic>;
+typedef JsonArray = List<dynamic>;

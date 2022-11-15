@@ -1,39 +1,64 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Json resolver plus
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Access nested json LIKE a PRO!
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+* Easy access nested json properties
+* Easy type checking
+* Automatic casting included e.g. '42.6' > 42.6
+* Extend easily with dart extensions
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Simple usage
 
 ```dart
-const like = 'sample';
+final json = {
+    'a': {
+        'b': {
+            'c': 42
+        },
+    },
+};
+
+export 'package:json_resolver_plus/resolve.dart';
+resolve(json, 'a.b.d'); // null
+resolve(json, 'a.b.c'); // 42
+resolve<int>(json, 'a.b.c'); // 42
+resolve<String>(json, 'a.b.c'); // null
 ```
 
-## Additional information
+### More advanced
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+final json = {
+    'a': {
+        'b': {
+            'c': true,
+            'd': 42
+            'e': 42.624,
+            'f': 'Hello World!',
+            'g': '2022-11-15 15:00:00'
+        },
+    },
+};
+
+export 'package:json_resolver_plus/json_resolver.dart';
+JsonResolver.value(json, 'a.b.c'); // true
+JsonResolver.value<bool>(json, 'a.b.c'); // true
+JsonResolver.boolean(json, 'a.b.c'); // true
+JsonResolver.integer(json, 'a.b.d'); // 42
+JsonResolver.number(json, 'a.b.e'); // 42.624
+JsonResolver.string(json, 'a.b.f'); // Hello World!
+
+export 'package:json_resolver_plus/json_map_with_resolve.dart';
+json.value('a.b.c'); // true
+json.value<bool>('a.b.c'); // true
+json.boolean('a.b.c'); // true
+json.integer('a.b.d'); // 42
+json.number('a.b.e'); // 42.624
+json.string('a.b.f'); // Hello World!
+json.dateTime('a.b.g'); // DateTime
+json.dateTime('a.b.g', format: DateFormat('yyyy-MM-dd HH:mm')); // DateTime
+```
